@@ -1,0 +1,35 @@
+package ch.maxant.demo.swarm.data;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "T_ROLE")
+public class Role {
+
+    @Id
+    @Column(name = "ID")
+    private Integer id;
+
+    @Column(name = "ROLE_NAME", length = 100)
+    private String roleName;
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+}
