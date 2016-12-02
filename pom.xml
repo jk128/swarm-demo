@@ -18,6 +18,8 @@
 
         <junit.version>4.12</junit.version>
         <wildfly-swarm.version>2016.11.0</wildfly-swarm.version>
+        <!-- jackson version needs to match version used by swarm! -->
+        <jackson.version>2.7.4</jackson.version>
     </properties>
 
     <dependencyManagement>
@@ -66,6 +68,23 @@
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>spring</artifactId>
+        </dependency>
+
+        <!-- added to serialise java.time.LocalDate as an ISO 8601 String -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-parameter-names</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
@@ -148,7 +167,7 @@
                 <groupId>org.wildfly.swarm</groupId>
                 <artifactId>wildfly-swarm-plugin</artifactId>
                 <configuration>
-                    <mainClass>org.wildfly.swarm.examples.jpajaxrscdijta.Main</mainClass>
+                    <mainClass>ch.maxant.demo.swarm.Main</mainClass>
                 </configuration>
                 <executions>
                     <execution>

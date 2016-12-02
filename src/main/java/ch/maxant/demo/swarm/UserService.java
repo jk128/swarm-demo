@@ -3,12 +3,11 @@ package ch.maxant.demo.swarm;
 import ch.maxant.demo.swarm.data.User;
 import ch.maxant.demo.swarm.data.UserRepository;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 
-//@ApplicationScoped - injection didnt work. deleteme
-@Stateless
+@ApplicationScoped
 public class UserService {
 
     @Inject

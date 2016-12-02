@@ -1,4 +1,4 @@
-package ch.maxant.demo.swarm.jpa.util;
+package ch.maxant.demo.swarm.framework.jpa.util;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;

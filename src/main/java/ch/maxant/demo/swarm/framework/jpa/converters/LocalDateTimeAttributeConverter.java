@@ -1,4 +1,4 @@
-package ch.maxant.demo.swarm.jpa.converters;
+package ch.maxant.demo.swarm.framework.jpa.converters;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
