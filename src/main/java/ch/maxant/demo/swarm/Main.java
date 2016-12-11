@@ -8,6 +8,7 @@ import org.wildfly.swarm.datasources.DatasourcesFraction;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
 import org.wildfly.swarm.jpa.JPAFraction;
 import org.wildfly.swarm.logging.LoggingFraction;
+import org.wildfly.swarm.undertow.UndertowFraction;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -33,7 +34,7 @@ public class Main {
     }
 
     static JAXRSArchive buildDeployment() throws Exception {
-        JAXRSArchive deployment = ShrinkWrap.create(JAXRSArchive.class); //provides default Application and @ApplicationPath
+        JAXRSArchive deployment = ShrinkWrap.create(JAXRSArchive.class, "appName.war"); //provides default Application and @ApplicationPath
         deployment.addPackages(true, Main.class.getPackage());
         deployment.addAsWebInfResource(new ClassLoaderAsset("META-INF/persistence.xml", Main.class.getClassLoader()), "classes/META-INF/persistence.xml");
         deployment.addAsWebInfResource(new ClassLoaderAsset("META-INF/beans.xml", Main.class.getClassLoader()), "classes/META-INF/beans.xml"); //needed otherwise it doesnt seem to be able to create cdi beans
@@ -90,6 +91,32 @@ public class Main {
                         .rootLogger(Level.INFO, "CONSOLE")
                         //.logger("wildflyswarm.filelogger", l -> l.level(Level.FINE).handler(FILE_HANDLER_KEY).useParentHandlers(false))
         );
+
+//        String sslRealm = "SSLRealm";
+//        swarm.fraction(ManagementFraction.createDefaultFraction()
+/*                 .securityRealm(sslRealm, realm ->
+                    realm.sslServerIdentity(ssi ->
+                        ssi.keystorePassword("changeit")
+                            .keystorePath("/usr/java/latest/jre/lib/security/cacerts")
+                            .alias("auth.maxant.ch")
+                    )
+            )
+*/
+//        );
+/*
+        swarm.fraction(
+                UndertowFraction.createDefaultFraction()
+                        .server("default-server", server -> {
+                            String https = "https";
+                                    server.httpsListener(new HttpsListener(https)
+                                            .securityRealm(sslRealm)//must match the realm added above
+                                            .socketBinding(https));
+                                } //must match the socket binding you have for ssl.
+                        )
+        );
+*/
+
+        swarm.fraction(UndertowFraction.createDefaultHTTPSOnlyFraction("/usr/java/latest/jre/lib/security/cacerts", "changeit", "auth.maxant.ch"));
 
         /*
         swarm.fraction(SecurityFraction.defaultSecurityFraction()
