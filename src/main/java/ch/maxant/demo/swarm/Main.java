@@ -8,7 +8,6 @@ import org.wildfly.swarm.datasources.DatasourcesFraction;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
 import org.wildfly.swarm.jpa.JPAFraction;
 import org.wildfly.swarm.logging.LoggingFraction;
-import org.wildfly.swarm.undertow.UndertowFraction;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -116,7 +115,8 @@ public class Main {
         );
 */
 
-        swarm.fraction(UndertowFraction.createDefaultHTTPSOnlyFraction("/usr/java/latest/jre/lib/security/cacerts", "changeit", "auth.maxant.ch"));
+        //TODO https://issues.jboss.org/browse/SWARM-910
+        //swarm.fraction(UndertowFraction.createDefaultHTTPSOnlyFraction("/usr/java/latest/jre/lib/security/cacerts", "changeit", "auth.maxant.ch"));
 
         /*
         swarm.fraction(SecurityFraction.defaultSecurityFraction()

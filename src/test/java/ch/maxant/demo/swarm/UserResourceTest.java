@@ -15,6 +15,7 @@ public class UserResourceTest {
 
     @BeforeClass
     public static void init() throws Exception {
+        //TODO replace with maven pre-integration-test
         Main.main(new String[]{});
     }
 
