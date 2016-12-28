@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly-descriptor>
+    <interceptor-binding>
+        <ejb-name>*</ejb-name>
+        <interceptor-class>ch.maxant.demo.swarm.framework.cdi.JwtSecuredInterceptor</interceptor-class>
+    </interceptor-binding>
+</assembly-descriptor>

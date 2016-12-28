@@ -1,0 +1,8 @@
+{
+  "realm": "tullia",
+  "auth-server-url": "https://tullia.maxant.ch/auth",
+  "ssl-required": "external",
+  "resource": "app",
+  "public-client": true,
+  "use-resource-role-mappings": true
+}

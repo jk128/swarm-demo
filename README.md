@@ -20,6 +20,7 @@ Based on https://github.com/wildfly-swarm/wildfly-swarm-examples.
 
 # TODO
 
+- `-Dswarm.port.offset=<PORT_OFFSET>`
 - update maven to do pre-integration-test stuff and delete the @Before which calls main
   -- or maybe not... it could call through to MainTest which uses a different DB?! like an in-memory one
 - remove spring files. fix beans.xml which is in there twice! => only required in META-INF since that is then added to the archive in Main
@@ -40,5 +41,7 @@ Based on https://github.com/wildfly-swarm/wildfly-swarm-examples.
 - custom security
 - bean validation
 - others? checkout other examples
-- keycloak
+- keycloak => 
+  - get it working, see https://groups.google.com/d/msg/wildfly-swarm/G_-uGRUeiVo/1pLI8USvAgAJ
+  - or create own login module which checks roles like we'd like to, by simply fetching the public keycloak token and then verifying the signature of the JWT and then checking roles according to the relevant app defined path
 - why is beans.xml required? is it releated to spring data? its not necessary for the examples project.
