@@ -6,6 +6,7 @@
     <groupId>ch.maxant</groupId>
     <artifactId>swarm-demo</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <description>JPA + JAX-RS + CDI + JTA + EJB + SpringData + SSL + Security</description>
 

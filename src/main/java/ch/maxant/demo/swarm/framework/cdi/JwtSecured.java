@@ -17,6 +17,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface JwtSecured {
 
-    String application();
-    String realm();
+    String application() default "";
+    String realm() default "";
 }

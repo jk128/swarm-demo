@@ -19,7 +19,7 @@ public class Main {
 
         swarm.start();
 
-        JAXRSArchive deployment = buildDeployment();
+        //JAXRSArchive deployment = buildDeployment();
 
         /*
         call using:
@@ -32,7 +32,8 @@ public class Main {
 
          */
 
-        swarm.deploy(deployment);
+        //swarm.deploy(deployment);
+        swarm.deploy();
     }
 
     static JAXRSArchive buildDeployment() throws Exception {

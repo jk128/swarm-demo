@@ -2,6 +2,7 @@ package ch.maxant.demo.swarm;
 
 import ch.maxant.demo.swarm.data.User;
 import ch.maxant.demo.swarm.framework.cdi.JwtSecured;
+import ch.maxant.demo.swarm.framework.cdi.Secure;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,6 +15,7 @@ import java.util.List;
 @Stateless
 @JwtSecured(realm = "tullia", application = "app")
 //@Interceptors(JwtSecuredInterceptor.class)
+@Secure
 public class UserResource {
 
     @Inject
