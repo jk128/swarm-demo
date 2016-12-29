@@ -14,9 +14,9 @@ import org.wildfly.swarm.security.SecurityFraction;
 public class Main {
     public static void main(String[] args) throws Exception {
 
+        //for keycloak - TODO replace with truststore attribute in keycloak.json
         System.setProperty("javax.net.ssl.trustStore", "/usr/java/latest/jre/lib/security/cacerts");
         System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
-
 
         System.setProperty("swarm.port.offset", "1");
 
@@ -26,7 +26,6 @@ public class Main {
 
         /*
         call using:
-
             GET /all HTTP/1.1
             Host: localhost:8080
             Authorization: Basic UGVubnk6cGFzc3dvcmQ=
@@ -40,6 +39,7 @@ public class Main {
     static Swarm buildSwarm() throws Exception {
         Swarm swarm = new Swarm();
 
+        //TODO i think this can be done easier, no? ie with just project-stages.yml and no code here?
         swarm.fraction(new DatasourcesFraction()
                 .jdbcDriver(swarm.stageConfig().resolve("database.jdbcDriver.name").getValue(), (d) -> {
                     d.driverClassName(swarm.stageConfig().resolve("database.jdbcDriver.driverClassName").getValue());
@@ -109,6 +109,7 @@ public class Main {
         */
         //TODO how to make passwords md5 hashed in DB? prolly with `put("hashAlgorithm", "MD5")` in the above code
 
+        //configure keycloak for security
         swarm.fraction(SecurityFraction.defaultSecurityFraction()
                 .securityDomain(new SecurityDomain("domain")
                         .classicAuthentication(new ClassicAuthentication()
@@ -119,8 +120,6 @@ public class Main {
                         )
                 )
         );
-
-        //TODO to get spring up and running we need to add the web.xml and spring-context.xml?
 
         return swarm;
     }

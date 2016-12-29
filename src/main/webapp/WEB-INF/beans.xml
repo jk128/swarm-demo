@@ -5,6 +5,6 @@
         http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
        bean-discovery-mode="all">
     <interceptors>
-        <class>ch.maxant.demo.swarm.framework.cdi.SecurityInterceptor</class>
+        <class>ch.maxant.demo.swarm.framework.cdi.AuditInterceptor</class>
     </interceptors>
 </beans>

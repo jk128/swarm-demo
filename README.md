@@ -8,21 +8,24 @@ A demo showing a Swarm application with:
 - JTA
 - EJB
 - SpringData
-- Security
+- Security via Keycloak (including social login)
 - SSL
-
-Based on https://github.com/wildfly-swarm/wildfly-swarm-examples.
+- Project Stages (Configuration)
 
 #Useful Links
 
 - https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/
 - [System Properties](https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/configuration_properties.html)
 
+# Issues
+
+- https://issues.jboss.org/browse/SWARM-967
+- https://issues.jboss.org/browse/SWARM-910
+
 # TODO
 
 - use test_tullia user (see jst node for example) to run tests
 - stack overflow: why doesnt nodejs work with parent letsencrypt certificate and why do i have to add specific one?
-- test security which ive just added to SecurityInterceptor => create token using jst node
 - `-Dswarm.port.offset=<PORT_OFFSET>`
 - update maven to do pre-integration-test stuff and delete the @Before which calls main
   -- or maybe not... it could call through to MainTest which uses a different DB?! like an in-memory one
@@ -54,11 +57,15 @@ Working with web.xml but not yet with `@RolesAllowed`; see https://groups.google
 
 Try adding `truststore` and `truststore-password` to keycloak.json, as shown here: https://keycloak.gitbooks.io/securing-client-applications-guide/content/topics/oidc/java/java-adapter-config.html, rather than setting truststore in main.
 
-Debugged here:
+## Also interesting
 
-BearerTokenRequestAuthenticator
-called by org.keycloak.adapters.RequestAuthenticator
-extended by AbstractUndertowRequestAuthenticator
-=> http://grepcode.com/search/usages?id=repo1.maven.org$maven2@org.keycloak$keycloak-undertow-adapter@1.4.0.Final@org$keycloak$adapters$undertow@AbstractUndertowRequestAuthenticator&type=type&k=u
-RSATokenVerifier
+- http://stackoverflow.com/questions/32992186/how-do-i-get-hold-of-http-request-headers-in-a-cdi-bean-thats-injected-into-a-j
+
+## Debugged here:
+
+- BearerTokenRequestAuthenticator
+- called by org.keycloak.adapters.RequestAuthenticator
+- extended by AbstractUndertowRequestAuthenticator
+- http://grepcode.com/search/usages?id=repo1.maven.org$maven2@org.keycloak$keycloak-undertow-adapter@1.4.0.Final@org$keycloak$adapters$undertow@AbstractUndertowRequestAuthenticator&type=type&k=u
+- RSATokenVerifier
 

@@ -1,10 +1,8 @@
 package ch.maxant.demo.swarm;
 
 import ch.maxant.demo.swarm.data.User;
-import ch.maxant.demo.swarm.framework.cdi.Secure;
-import org.jboss.security.annotation.SecurityDomain;
+import ch.maxant.demo.swarm.framework.cdi.Audited;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -14,9 +12,10 @@ import java.util.List;
 
 @Path("/")
 @Stateless
-@Secure
-@RolesAllowed({"admin", "user", "uma_authorization"})
-@SecurityDomain("domain") //TODO required?
+@Audited //works on ejb too
+//secured via web.xml and keycloak
+//@RolesAllowed({"user"}) //TODO https://groups.google.com/forum/#!topic/wildfly-swarm/G_-uGRUeiVo
+//@SecurityDomain("domain") //TODO required?
 public class UserResource {
 
     @Inject

@@ -1,8 +1,5 @@
-maxant:
-   security:
-       publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhdWDpfIsB0bzQTfqrki7gX+9LHg23Fl+Pa8cIRI2nzTUmnNihH4P+u/XYYH4zupRa3YZAwenFcaUdcu7N52mkFgeUZpZylxt5O60FTGKz8oeJBfhFjTPEff+jVGX2Gj8e6Ukc7l34rE5AL5VaypaM4c+nu9X5/E0HO+V5IVda0l/5gGo6WVYOy5y003ERMOlZhxyk9x6Fwdc+M5qRHXSZSEQRpsO9aL9LhI98Z7O5m/AiO8j2j/ZTZHkiw5VDaU1FbsuuBFVPptA1H6NYsQX1vun31QEPbz9Bt7XQggT1KVF5sICbg5kRkAaC8ROZ1LHks3kEOcBM7MGdh5/xP2uoQIDAQAB
-       realm: tullia
-       application: app
+auditlog:
+   someValue: 234
 database:
    jdbcDriver:
       name: com.mysql
@@ -17,9 +14,6 @@ database:
 ---
 project:
    stage: test
-maxant:
-   security:
-       publicKey: TODO
 database:
    jdbcDriver:
       name: TODO-h2
