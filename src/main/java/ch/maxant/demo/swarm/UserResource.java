@@ -1,9 +1,10 @@
 package ch.maxant.demo.swarm;
 
 import ch.maxant.demo.swarm.data.User;
-import ch.maxant.demo.swarm.framework.cdi.JwtSecured;
 import ch.maxant.demo.swarm.framework.cdi.Secure;
+import org.jboss.security.annotation.SecurityDomain;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -13,9 +14,9 @@ import java.util.List;
 
 @Path("/")
 @Stateless
-@JwtSecured(realm = "tullia", application = "app")
-//@Interceptors(JwtSecuredInterceptor.class)
 @Secure
+@RolesAllowed({"admin", "user", "uma_authorization"})
+@SecurityDomain("domain") //TODO required?
 public class UserResource {
 
     @Inject
@@ -27,7 +28,6 @@ public class UserResource {
     @GET
     @Path("all")
     @Produces("application/json")
-    @JwtSecured(realm = "tullia", application = "app")
     public List<User> get() {
         return service.getAll();
     }

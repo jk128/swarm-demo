@@ -1,25 +1,28 @@
 package ch.maxant.demo.swarm;
 
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.wildfly.swarm.Swarm;
 import org.wildfly.swarm.config.logging.Level;
+import org.wildfly.swarm.config.security.Flag;
+import org.wildfly.swarm.config.security.SecurityDomain;
+import org.wildfly.swarm.config.security.security_domain.ClassicAuthentication;
+import org.wildfly.swarm.config.security.security_domain.authentication.LoginModule;
 import org.wildfly.swarm.datasources.DatasourcesFraction;
-import org.wildfly.swarm.jaxrs.JAXRSArchive;
 import org.wildfly.swarm.jpa.JPAFraction;
-import org.wildfly.swarm.keycloak.Secured;
 import org.wildfly.swarm.logging.LoggingFraction;
+import org.wildfly.swarm.security.SecurityFraction;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+
+        System.setProperty("javax.net.ssl.trustStore", "/usr/java/latest/jre/lib/security/cacerts");
+        System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+
 
         System.setProperty("swarm.port.offset", "1");
 
         Swarm swarm = buildSwarm();
 
         swarm.start();
-
-        //JAXRSArchive deployment = buildDeployment();
 
         /*
         call using:
@@ -29,71 +32,30 @@ public class Main {
             Authorization: Basic UGVubnk6cGFzc3dvcmQ=
             Cache-Control: no-cache
             Postman-Token: feaa4370-3628-9b6b-32ba-08b25c211b0a
-
          */
 
-        //swarm.deploy(deployment);
         swarm.deploy();
-    }
-
-    static JAXRSArchive buildDeployment() throws Exception {
-        JAXRSArchive deployment = ShrinkWrap.create(JAXRSArchive.class, "appName.war"); //provides default Application and @ApplicationPath
-        deployment.addPackages(true, Main.class.getPackage());
-        deployment.addAsWebInfResource(new ClassLoaderAsset("META-INF/persistence.xml", Main.class.getClassLoader()), "classes/META-INF/persistence.xml");
-        deployment.addAsWebInfResource(new ClassLoaderAsset("META-INF/beans.xml", Main.class.getClassLoader()), "classes/META-INF/beans.xml"); //needed because of interceptors
-        deployment.addAsWebInfResource(new ClassLoaderAsset("META-INF/ejb-jar.xml", Main.class.getClassLoader()), "classes/META-INF/ejb-jar.xml"); //needed because of interceptors
-        deployment.addAsManifestResource(new ClassLoaderAsset("META-INF/ejb-jar.xml", Main.class.getClassLoader()), "ejb-jar.xml"); //needed because of interceptors
-//why is this added in some demos, but doesnt really seem to be required?        deployment.addResource(UserResource.class);
-        deployment.addModule("com.mysql");
-        deployment.addAllDependencies();
-
-/*
-        // Builder for web.xml and jboss-web.xml - for security based on normal jboss stuff
-        WebXmlAsset webXmlAsset = deployment.findWebXmlAsset();
-        webXmlAsset.setLoginConfig("BASIC", "realm");
-        webXmlAsset.protect("/*")
-                .withMethod("GET")
-                .withMethod("POST")
-                .withMethod("PUT")
-                .withMethod("DELETE")
-                .withRole("admin");
-
-        deployment.setSecurityDomain("domain");
-*/
-        // Or, you can add web.xml and jboss-web.xml from classpath or somewhere
-        // deployment.addAsWebInfResource(new ClassLoaderAsset("WEB-INF/web.xml", Main.class.getClassLoader()), "web.xml");
-        // deployment.addAsWebInfResource(new ClassLoaderAsset("WEB-INF/jboss-web.xml", Main.class.getClassLoader()), "jboss-web.xml");
-
-        deployment.as(Secured.class) //adds keycloak security
-                ;/*
-        //TODO get this working: https://groups.google.com/d/msg/wildfly-swarm/G_-uGRUeiVo/1pLI8USvAgAJ
-                .protect()
-                .withMethod("GET", "POST", "PUT", "DELETE")
-                .withRole("uma_authorization");
-                */
-
-        return deployment;
     }
 
     static Swarm buildSwarm() throws Exception {
         Swarm swarm = new Swarm();
 
         swarm.fraction(new DatasourcesFraction()
-                .jdbcDriver("com.mysql", (d) -> {
-                    d.driverClassName("com.mysql.cj.jdbc.Driver");
-                    d.xaDatasourceClass("com.mysql.cj.jdbc.MysqlXADataSource");
-                    d.driverModuleName("com.mysql");
+                .jdbcDriver(swarm.stageConfig().resolve("database.jdbcDriver.name").getValue(), (d) -> {
+                    d.driverClassName(swarm.stageConfig().resolve("database.jdbcDriver.driverClassName").getValue());
+                    d.xaDatasourceClass(swarm.stageConfig().resolve("database.jdbcDriver.xaDatasourceClass").getValue());
+                    d.driverModuleName(swarm.stageConfig().resolve("database.jdbcDriver.driverModuleName").getValue());
                 })
-                .dataSource("ExampleDS2", (ds) -> {
-                    ds.driverName("com.mysql");
-                    ds.connectionUrl("jdbc:mysql://localhost:3306/tullia_users?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8");
-                    ds.userName("root");
-                    ds.password("password");
+                .dataSource("primaryDS", (ds) -> {
+                    ds.driverName(swarm.stageConfig().resolve("database.datasource.driverName").getValue());
+                    ds.connectionUrl(swarm.stageConfig().resolve("database.datasource.url").getValue());
+                    ds.userName(swarm.stageConfig().resolve("database.datasource.username").getValue());
+                    ds.password(swarm.stageConfig().resolve("database.datasource.password").getValue());
                 })
         );
 
         swarm.fraction(new JPAFraction()
-                               .defaultDatasource("jboss/datasources/ExampleDS2")
+                               .defaultDatasource("jboss/datasources/primaryDS")
         );
 
         swarm.fraction(
@@ -132,7 +94,6 @@ public class Main {
         //TODO https://issues.jboss.org/browse/SWARM-910
         //swarm.fraction(UndertowFraction.createDefaultHTTPSOnlyFraction("/usr/java/latest/jre/lib/security/cacerts", "changeit", "auth.maxant.ch"));
 
-        //TODO instead of a db based login module, i want one which checks JWTs created with keycloak
         //security for basic authentication
         /*
         swarm.fraction(SecurityFraction.defaultSecurityFraction()
@@ -146,7 +107,18 @@ public class Main {
                                             put("rolesQuery", "SELECT role, 'Roles' FROM REST_DB_ACCESS WHERE name=?");
                                         }})))));
         */
-        //TODO how to make passwords md5 hashed in DB?
+        //TODO how to make passwords md5 hashed in DB? prolly with `put("hashAlgorithm", "MD5")` in the above code
+
+        swarm.fraction(SecurityFraction.defaultSecurityFraction()
+                .securityDomain(new SecurityDomain("domain")
+                        .classicAuthentication(new ClassicAuthentication()
+                                .loginModule(new LoginModule("org.keycloak.adapters.jboss.KeycloakLoginModule")
+                                        .code("org.keycloak.adapters.jboss.KeycloakLoginModule")
+                                        .flag(Flag.REQUIRED)
+                                        )
+                        )
+                )
+        );
 
         //TODO to get spring up and running we need to add the web.xml and spring-context.xml?
 

@@ -1,6 +1,5 @@
 package ch.maxant.demo.swarm;
 
-import com.jayway.restassured.authentication.BasicAuthScheme;
 import com.jayway.restassured.builder.RequestSpecBuilder;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.specification.RequestSpecification;
@@ -23,12 +22,9 @@ public class UserResourceTest {
     public void testGetAll() {
 
         RequestSpecBuilder builder = new RequestSpecBuilder();
-        builder.setBaseUri("http://localhost:8080");
+        builder.setBaseUri("http://localhost:8081");
         builder.setAccept(ContentType.JSON);
-        BasicAuthScheme auth = new BasicAuthScheme();
-        auth.setUserName("admin");
-        auth.setPassword("admin");
-        builder.setAuthentication(auth);
+        builder.addHeader("Authorization", "Bearer " + "TODO-token");
         RequestSpecification spec = builder.build();
 
         given(spec).

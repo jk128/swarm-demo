@@ -6,6 +6,5 @@
        bean-discovery-mode="all">
     <interceptors>
         <class>ch.maxant.demo.swarm.framework.cdi.SecurityInterceptor</class>
-        <class>ch.maxant.demo.swarm.framework.cdi.JwtSecuredInterceptor</class>
     </interceptors>
 </beans>

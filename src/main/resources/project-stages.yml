@@ -1,7 +1,36 @@
-swarm:
-  http:
-    keystore:
-      path: keystore.jks
+maxant:
+   security:
+       publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhdWDpfIsB0bzQTfqrki7gX+9LHg23Fl+Pa8cIRI2nzTUmnNihH4P+u/XYYH4zupRa3YZAwenFcaUdcu7N52mkFgeUZpZylxt5O60FTGKz8oeJBfhFjTPEff+jVGX2Gj8e6Ukc7l34rE5AL5VaypaM4c+nu9X5/E0HO+V5IVda0l/5gGo6WVYOy5y003ERMOlZhxyk9x6Fwdc+M5qRHXSZSEQRpsO9aL9LhI98Z7O5m/AiO8j2j/ZTZHkiw5VDaU1FbsuuBFVPptA1H6NYsQX1vun31QEPbz9Bt7XQggT1KVF5sICbg5kRkAaC8ROZ1LHks3kEOcBM7MGdh5/xP2uoQIDAQAB
+       realm: tullia
+       application: app
+database:
+   jdbcDriver:
+      name: com.mysql
+      driverClassName: com.mysql.cj.jdbc.Driver
+      xaDatasourceClass: com.mysql.cj.jdbc.MysqlXADataSource
+      driverModuleName: com.mysql
+   datasource:
+      driverName: com.mysql
+      url: jdbc:mysql://localhost:3306/tullia_users?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
+      username: root
       password: password
-    certificate:
-      alias: selfsigned
+---
+project:
+   stage: test
+maxant:
+   security:
+       publicKey: TODO
+database:
+   jdbcDriver:
+      name: TODO-h2
+      driverClassName: TODO-h2
+      xaDatasourceClass: TODO-h2
+      driverModuleName: TODO-h2
+   datasource:
+      driverName: TODO-h2
+      url: TODO-h2
+      username: TODO-h2
+      password: TODO-h2
+---
+project:
+   stage: prod
