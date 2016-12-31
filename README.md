@@ -26,11 +26,13 @@ A demo showing a Swarm application with:
 
 - use test_tullia user (see jst node for example) to run tests
 - stack overflow: why doesnt nodejs work with parent letsencrypt certificate and why do i have to add specific one?
+- upgrade to 2016.12.1
+- add consul
 - `-Dswarm.port.offset=<PORT_OFFSET>`
 - update maven to do pre-integration-test stuff and delete the @Before which calls main
   -- or maybe not... it could call through to MainTest which uses a different DB?! like an in-memory one
 - remove spring files. fix beans.xml which is in there twice! => only required in META-INF since that is then added to the archive in Main
-- add flyway - see below
+- flyway? https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/advanced/flyway.html
 - add option to use in memory db for testing. how could we mock backend calls?
   - add question to swarm forum
 - do we even need modules.com.mysql.main? or just the module.xml somewhere in the resources. coz in the temp project it worked nicely when it was just under src/main/resouces/main
@@ -38,18 +40,19 @@ A demo showing a Swarm application with:
 - test should use a different DB fraction with an in-memory db
   - use flyway so that the in mem DB will be initialised. mysql running outside won't, coz it is managed by first deployment which runs against it. ie make it the responsibility of the app to ensure the db is ready. flyway is docker safe afterall.
 - envers
-- logback
 - finish configing logging in Main properly. eg how to use own format?
 - jax-rs2 client for calling other services
 - gradle mail
-- flyway? https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/advanced/flyway.html
-- custom security
 - bean validation
 - others? checkout other examples
 - keycloak => 
   - get it working, see https://groups.google.com/d/msg/wildfly-swarm/G_-uGRUeiVo/1pLI8USvAgAJ
-  - or create own login module which checks roles like we'd like to, by simply fetching the public keycloak token and then verifying the signature of the JWT and then checking roles according to the relevant app defined path
 - project-stages.yml: see https://issues.jboss.org/browse/SWARM-967
+- swarm and ITs and measuring coverage
+-
+
+
+
 
 #Keycloak
 

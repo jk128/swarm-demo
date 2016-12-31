@@ -40,6 +40,7 @@ public class Main {
         Swarm swarm = new Swarm();
 
         //TODO i think this can be done easier, no? ie with just project-stages.yml and no code here?
+        //see https://groups.google.com/forum/#!topic/wildfly-swarm/0E0-FyRJzJk ?
         swarm.fraction(new DatasourcesFraction()
                 .jdbcDriver(swarm.stageConfig().resolve("database.jdbcDriver.name").getValue(), (d) -> {
                     d.driverClassName(swarm.stageConfig().resolve("database.jdbcDriver.driverClassName").getValue());
@@ -58,6 +59,7 @@ public class Main {
                                .defaultDatasource("jboss/datasources/primaryDS")
         );
 
+        //see https://groups.google.com/forum/#!topic/wildfly-swarm/0E0-FyRJzJk
         swarm.fraction(
                 new LoggingFraction()
                         .defaultFormatter()

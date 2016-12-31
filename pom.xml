@@ -157,11 +157,6 @@
             <version>0.7.0</version>
         </dependency>
         <dependency>
-            <groupId>org.picketbox</groupId>
-            <artifactId>picketbox</artifactId>
-            <version>4.9.6.Final</version>
-        </dependency>
-        <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-wf8-adapter-dist</artifactId>
             <version>2.4.0.Final</version>
