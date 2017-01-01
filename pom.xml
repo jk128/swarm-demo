@@ -3,12 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ch.maxant</groupId>
-    <artifactId>swarm-demo</artifactId>
+    <groupId>ch.maxant.demo</groupId>
+    <artifactId>swarmtests</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
-    <description>JPA + JAX-RS + CDI + JTA + EJB + SpringData + SSL + Security</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,8 +17,6 @@
 
         <junit.version>4.12</junit.version>
         <wildfly-swarm.version>2016.12.0</wildfly-swarm.version>
-        <!-- jackson version needs to match version used by swarm! -->
-        <jackson.version>2.7.4</jackson.version>
     </properties>
 
     <dependencyManagement>
@@ -32,36 +28,10 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-releasetrain</artifactId>
-                <version>Hopper-SR5</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- arquillian -->
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>1.1.10.Final</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-bom</artifactId>
-                <version>2.0.0.Alpha4</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 
-
     <dependencies>
-
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>jaxrs</artifactId>
@@ -70,110 +40,11 @@
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>cdi</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>jpa</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!-- ensures ExampleDS isnt configured -->
-                    <groupId>org.wildfly.swarm</groupId>
-                    <artifactId>h2</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- could use this instead of providing module, but then we would HAVE to use an older version of the driver.
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>mysql</artifactId>
-        </dependency>
-        -->
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>transactions</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>ejb</artifactId>
-        </dependency>
-
-        <!-- TODO required for spring data? if not, remove it -->
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>spring</artifactId>
-        </dependency>
-
-        <!-- TODO https://issues.jboss.org/browse/SWARM-910
-        <dependency>
-            < ! - - added to allow SSL - - >
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>management</artifactId>
-        </dependency>
-        -->
-
-        <!-- arquillian TODO delete this since not used -->
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>arquillian</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- added to serialise java.time.LocalDate as an ISO 8601 String -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-parameter-names</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jdk8</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>6.0.5</version>
-        </dependency>
-
-        <!-- security stuff -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.7.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-wf8-adapter-dist</artifactId>
-            <version>2.4.0.Final</version>
-        </dependency>
-        <!-- end security stuff -->
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
             <scope>test</scope>
         </dependency>
 
@@ -190,7 +61,6 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -225,8 +95,7 @@
                 <groupId>org.wildfly.swarm</groupId>
                 <artifactId>wildfly-swarm-plugin</artifactId>
                 <configuration>
-                    <!-- not just important for mvn start, but also for supplying main in the uberJAR -->
-                    <mainClass>ch.maxant.demo.swarm.Main</mainClass>
+                    <mainClass>ch.maxant.demo.swarm.Example</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -243,29 +112,5 @@
 
         </plugins>
     </build>
-
-    <developers>
-        <developer>
-            <id>ant</id>
-            <name>Ant Kutschera</name>
-            <email>ant.kutschera@gmail.com</email>
-        </developer>
-    </developers>
-
-    <!-- TODO can we remove this? -->
-    <repositories>
-        <repository>
-            <id>jboss-public-repository-group</id>
-            <name>JBoss Public Repository Group</name>
-            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
 
 </project>

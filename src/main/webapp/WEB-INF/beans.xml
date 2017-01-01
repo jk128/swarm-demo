@@ -3,8 +3,5 @@
        xsi:schemaLocation="
         http://xmlns.jcp.org/xml/ns/javaee
         http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
-       bean-discovery-mode="all">
-    <interceptors>
-        <class>ch.maxant.demo.swarm.framework.cdi.AuditInterceptor</class>
-    </interceptors>
+       bean-discovery-mode="annotated">
 </beans>
