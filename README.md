@@ -24,8 +24,10 @@ A demo showing a Swarm application with:
 
 # TODO
 
-- use test_tullia user (see jst node for example) to run tests
-- stack overflow: why doesnt nodejs work with parent letsencrypt certificate and why do i have to add specific one?
+- add integration test with mock like on the `comparison_to_springboot` branch
+  - uses in memory DB and flyway
+  - this way we can remove security requirements, since we use a different web.xml :-)
+  - create proper integration test which logs in and uses test_tullia user to get a token (see jst node for example) to run tests
 - upgrade to 2016.12.1
 - add consul
 - `-Dswarm.port.offset=<PORT_OFFSET>`

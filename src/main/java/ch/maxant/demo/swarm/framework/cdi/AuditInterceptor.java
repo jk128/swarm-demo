@@ -1,5 +1,6 @@
 package ch.maxant.demo.swarm.framework.cdi;
 
+import ch.maxant.demo.swarm.framework.web.WebContext;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.slf4j.Logger;
@@ -9,8 +10,6 @@ import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -19,8 +18,10 @@ import java.time.Instant;
 public class AuditInterceptor {
 
     //just an example of how we can use the token. in reality, the user would be logged in and we could just inject the security context.
-    @Context
-    HttpHeaders httpHeaders;
+
+    //since neither @Context HttpHeaders httpHeaders; nor @Context private HttpServletRequest servletRequest; works here, we use a web filter to access the token:
+    @Inject
+    WebContext webContext;
 
     //read from project-stages.yml. can also be read as a system property
     @Inject
@@ -35,23 +36,21 @@ public class AuditInterceptor {
 
         String name = "unknown";
 
-        if (httpHeaders != null) {
-            String authorizationHeader = httpHeaders.getHeaderString(HttpHeaders.AUTHORIZATION);
-            String token = null;
-            if (authorizationHeader != null) {
-                if (authorizationHeader.startsWith("Bearer ")) {
-                    token = authorizationHeader.substring(7);
-                } else {
-                    throw new RuntimeException("Unexpected authorization type: '" + authorizationHeader + "'. Should start with 'Bearer'.");
-                }
-            }
+        String token = webContext.getToken();
 
-            //we can trust that the keycloak adapter already verified the token and that its good. so lets just read stuff from it here
-            if (token != null) {
-                Claims body = Jwts.parser().parseClaimsJws(token).getBody();
-                name = body.get("given_name", String.class);
-                name += " " + body.get("family_name", String.class);
-            }
+        //we can trust that the keycloak adapter already verified the token and that its good. so lets just read stuff from it here
+        if (token != null) {
+            Claims body = Jwts.parser().parseClaimsJws(token).getBody();
+            name = body.get("given_name", String.class);
+            name += " " + body.get("family_name", String.class);
+
+            //if we didn't trust the token, we could check it against the signature:
+            //http://stackoverflow.com/questions/28294663/how-to-convert-from-string-to-publickey
+            //byte[] publicBytes = Base64.getDecoder().decode(publicKey); //publicKey comes from https://tullia.maxant.ch/auth/realms/tullia/.well-known/uma-configuration
+            //X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicBytes);
+            //KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            //PublicKey pubKey = keyFactory.generatePublic(keySpec);
+            //Claims body = Jwts.parser().setSigningKey(pubKey).parseClaimsJws(token).getBody(); SEE how "setSigningKey" is set?
         }
 
         Instant start = Instant.now();
