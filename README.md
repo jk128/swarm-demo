@@ -60,3 +60,18 @@ Try adding `truststore` and `truststore-password` to keycloak.json, as shown her
 - http://grepcode.com/search/usages?id=repo1.maven.org$maven2@org.keycloak$keycloak-undertow-adapter@1.4.0.Final@org$keycloak$adapters$undertow@AbstractUndertowRequestAuthenticator&type=type&k=u
 - RSATokenVerifier
 
+
+----------------------------------------------------
+
+
+# Mysql Issues
+
+Needed to fix a problem with events, so that flyway worked.
+
+This worked using sudo: http://serverfault.com/questions/562282/mysqldump-error-1557-corrupt-event-table/562303
+
+Before hand I did this: http://serverfault.com/questions/100685/cannot-proceed-because-system-tables-used-by-event-scheduler-were-found-damaged 
+BUT DONT DROP THE events table!!
+
+Unfortunately on the laptop, i dropped mysql.events and had to rebuild it with a partial script taken from /usr/share/mysql/mysql_system_tables.sql
+That didn't quite work until i updated the default value of modified to "1970-01-02 00:00:00" which probably ISNT right :-(
