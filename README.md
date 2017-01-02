@@ -31,6 +31,7 @@ A demo showing a Swarm application with:
 - upgrade to 2016.12.1
 - add consul
 - `-Dswarm.port.offset=<PORT_OFFSET>`
+- See https://deltaspike.apache.org/documentation/projectstage.html for mocking in tests
 - update maven to do pre-integration-test stuff and delete the @Before which calls main
   -- or maybe not... it could call through to MainTest which uses a different DB?! like an in-memory one
 - remove spring files. fix beans.xml which is in there twice! => only required in META-INF since that is then added to the archive in Main
