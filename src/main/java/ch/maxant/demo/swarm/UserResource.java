@@ -32,6 +32,13 @@ public class UserResource {
     }
 
     @GET
+    @Path("allWithEm")
+    @Produces("application/json")
+    public List<User> getAllWithEm() {
+        return service.getAllUsingEntityManager();
+    }
+
+    @GET
     @Path("loggedInUser")
     @Produces("application/json")
     public String loggedInUser() {

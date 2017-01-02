@@ -13,9 +13,12 @@ import java.util.List;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * See src/test/resources/beans.xml which references this file.
+ */
 @Alternative
 @Dependent
-public class TestSetup {
+public class TestCdiSetup {
 
     @Alternative
     @Produces

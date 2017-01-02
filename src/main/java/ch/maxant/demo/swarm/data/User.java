@@ -7,10 +7,22 @@ import java.util.Set;
 @Entity
 @Table(name = "T_USER")
 @NamedQueries({
-        @NamedQuery(name = "User.findAll", query = "select u from User u"),
-        @NamedQuery(name = "User.findByCreatedBetween", query = "select u from User u where u.created > :from and u.created < :to")
+        @NamedQuery(name = User.NQFindAll.NAME, query = User.NQFindAll.QUERY),
+        @NamedQuery(name = User.NQFindByCreatedBetween.NAME, query = User.NQFindByCreatedBetween.QUERY)
 })
 public class User {
+
+    public static class NQFindAll {
+        public static final String NAME = "User.findAll";
+        public static final String QUERY = "select u from User u";
+    }
+
+    public static class NQFindByCreatedBetween {
+        public static final String NAME = "User.findByCreatedBetween";
+        public static final String PARAM_FROM = "from";
+        public static final String PARAM_TO = "to";
+        public static final String QUERY = "select u from User u where u.created > :" + PARAM_FROM + " and u.created < :" + PARAM_TO;
+    }
 
     @Id
     @Column(name = "ID")

@@ -5,6 +5,6 @@
         http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
        bean-discovery-mode="all">
     <alternatives>
-        <class>ch.maxant.demo.swarm.TestSetup</class>
+        <class>ch.maxant.demo.swarm.TestCdiSetup</class>
     </alternatives>
 </beans>

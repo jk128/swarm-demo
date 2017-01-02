@@ -3,7 +3,7 @@ swarm:
       offset: 1
 auditlog:
    someValue: 234
-database:
+primary_database:
    jdbcDriver:
       name: com.mysql
       driverClassName: com.mysql.cj.jdbc.Driver

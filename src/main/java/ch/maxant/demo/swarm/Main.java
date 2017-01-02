@@ -12,6 +12,9 @@ import org.wildfly.swarm.logging.LoggingFraction;
 import org.wildfly.swarm.security.SecurityFraction;
 
 public class Main {
+
+    public static final String PRIMARY_DS = "primaryDS";
+
     public static void main(String[] args) throws Exception {
 
         //for keycloak - TODO replace with truststore attribute in keycloak.json
@@ -40,16 +43,16 @@ public class Main {
         //TODO i think this can be done easier, no? ie with just project-stages.yml and no code here?
         //see https://groups.google.com/forum/#!topic/wildfly-swarm/0E0-FyRJzJk ?
         swarm.fraction(new DatasourcesFraction()
-                .jdbcDriver(swarm.stageConfig().resolve("database.jdbcDriver.name").getValue(), (d) -> {
-                    d.driverClassName(swarm.stageConfig().resolve("database.jdbcDriver.driverClassName").getValue());
-                    d.xaDatasourceClass(swarm.stageConfig().resolve("database.jdbcDriver.xaDatasourceClass").getValue());
-                    d.driverModuleName(swarm.stageConfig().resolve("database.jdbcDriver.driverModuleName").getValue());
+                .jdbcDriver(swarm.stageConfig().resolve("primary_database.jdbcDriver.name").getValue(), (d) -> {
+                    d.driverClassName(swarm.stageConfig().resolve("primary_database.jdbcDriver.driverClassName").getValue());
+                    d.xaDatasourceClass(swarm.stageConfig().resolve("primary_database.jdbcDriver.xaDatasourceClass").getValue());
+                    d.driverModuleName(swarm.stageConfig().resolve("primary_database.jdbcDriver.driverModuleName").getValue());
                 })
-                .dataSource("primaryDS", (ds) -> {
-                    ds.driverName(swarm.stageConfig().resolve("database.datasource.driverName").getValue());
-                    ds.connectionUrl(swarm.stageConfig().resolve("database.datasource.url").getValue());
-                    ds.userName(swarm.stageConfig().resolve("database.datasource.username").getValue());
-                    ds.password(swarm.stageConfig().resolve("database.datasource.password").getValue());
+                .dataSource(PRIMARY_DS, (ds) -> {
+                    ds.driverName(swarm.stageConfig().resolve("primary_database.datasource.driverName").getValue());
+                    ds.connectionUrl(swarm.stageConfig().resolve("primary_database.datasource.url").getValue());
+                    ds.userName(swarm.stageConfig().resolve("primary_database.datasource.username").getValue());
+                    ds.password(swarm.stageConfig().resolve("primary_database.datasource.password").getValue());
                 })
         );
 
