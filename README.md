@@ -30,7 +30,6 @@ A demo showing a Swarm application with:
   - create proper integration test which logs in and uses test_tullia user to get a token (see jst node for example) to run tests
 - upgrade to 2016.12.1
 - add consul
-- `-Dswarm.port.offset=<PORT_OFFSET>`
 - See https://deltaspike.apache.org/documentation/projectstage.html for mocking in tests
 - update maven to do pre-integration-test stuff and delete the @Before which calls main
   -- or maybe not... it could call through to MainTest which uses a different DB?! like an in-memory one

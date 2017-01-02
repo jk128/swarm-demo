@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.is;
 
 @Ignore
 @RunWith(Arquillian.class)
-public class UserResourceAT {
+public class UserResource2AT {
 
     //https://groups.google.com/forum/#!topic/wildfly-swarm/83DnCXXH2PY
 

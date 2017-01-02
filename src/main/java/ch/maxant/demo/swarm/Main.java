@@ -18,8 +18,6 @@ public class Main {
         System.setProperty("javax.net.ssl.trustStore", "/usr/java/latest/jre/lib/security/cacerts");
         System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
 
-        System.setProperty("swarm.port.offset", "1");
-
         Swarm swarm = buildSwarm();
 
         swarm.start();

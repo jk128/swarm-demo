@@ -73,14 +73,24 @@
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>jpa</artifactId>
+                    <!-- ensures ExampleDS isnt configured
             <exclusions>
                 <exclusion>
-                    <!-- ensures ExampleDS isnt configured -->
                     <groupId>org.wildfly.swarm</groupId>
                     <artifactId>h2</artifactId>
                 </exclusion>
             </exclusions>
+                    -->
         </dependency>
+
+        <!-- _H2 not excluded during testing
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>jpa</artifactId>
+            <scope>test</scope>
+        </dependency>
+        -->
+
         <!-- could use this instead of providing module, but then we would HAVE to use an older version of the driver.
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
@@ -158,7 +168,7 @@
         </dependency>
         <dependency>
             <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-wf8-adapter-dist</artifactId>
+            <artifactId>keycloak-wildfly-adapter</artifactId>
             <version>2.4.0.Final</version>
         </dependency>
         <!-- end security stuff -->
@@ -215,7 +225,33 @@
                                 <goal>package</goal>
                             </goals>
                         </execution>
+                        <execution>
+                            <id>start</id>
+                            <phase>pre-integration-test</phase>
+                            <goals>
+                                <goal>start</goal>
+                            </goals>
+                            <configuration>
+                                <stdoutFile>target/stdout.log</stdoutFile>
+                                <stderrFile>target/stderr.log</stderrFile>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>stop</id>
+                            <phase>post-integration-test</phase>
+                            <goals>
+                                <goal>stop</goal>
+                            </goals>
+                        </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.19.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -241,6 +277,34 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- since we are ONLY using H2 for unit tests, we need to exclude mysql during unit testing otherwise swarm auto detects it :-( -->
+                    <classpathDependencyExcludes>
+                        <classpathDependencyExclude>mysql:mysql-connector-java</classpathDependencyExclude>
+                    </classpathDependencyExcludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*IT.java</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -252,7 +316,7 @@
         </developer>
     </developers>
 
-    <!-- TODO can we remove this? -->
+    <!-- TODO can we remove this?
     <repositories>
         <repository>
             <id>jboss-public-repository-group</id>
@@ -266,6 +330,7 @@
             </snapshots>
         </repository>
     </repositories>
+    -->
 
 
 </project>
