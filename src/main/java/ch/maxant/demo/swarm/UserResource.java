@@ -2,6 +2,7 @@ package ch.maxant.demo.swarm;
 
 import ch.maxant.demo.swarm.data.User;
 import ch.maxant.demo.swarm.framework.cdi.Audited;
+import org.wildfly.swarm.topology.Advertise;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,6 +17,7 @@ import java.util.List;
 //secured via web.xml and keycloak
 //@RolesAllowed({"user"}) //TODO https://groups.google.com/forum/#!topic/wildfly-swarm/G_-uGRUeiVo
 //@SecurityDomain("domain") //TODO required?
+@Advertise("user-service")
 public class UserResource {
 
     @Inject
