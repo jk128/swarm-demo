@@ -28,7 +28,6 @@ A demo showing a Swarm application with:
 # TODO
 
 - upgrade to 2016.12.1
-- add consul
 - See https://deltaspike.apache.org/documentation/projectstage.html for mocking in tests
 - envers
 - finish configing logging in Main properly. eg how to use own format?
@@ -40,7 +39,8 @@ A demo showing a Swarm application with:
   - get it working, see https://groups.google.com/d/msg/wildfly-swarm/G_-uGRUeiVo/1pLI8USvAgAJ
 - project-stages.yml: see https://issues.jboss.org/browse/SWARM-967
 - swarm and ITs and measuring coverage
--
+- cors: https://github.com/wildfly-swarm/wildfly-swarm-examples/blob/master/jaxrs/health/src/main/java/org/wildfly/swarm/examples/jaxrs/health/CORSFilter.java
+- add custom service locator based on consul health and tags
 
 #Keycloak
 
