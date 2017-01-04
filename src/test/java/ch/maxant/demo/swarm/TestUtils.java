@@ -27,7 +27,7 @@ public final class TestUtils {
         return builder.build();
     }
 
-    private static String getBaseUriForLocalhost() {
+    public static String getBaseUriForLocalhost() {
         return "http://localhost:" + (8080 + Integer.getInteger("swarm.port.offset", 1));
     }
 

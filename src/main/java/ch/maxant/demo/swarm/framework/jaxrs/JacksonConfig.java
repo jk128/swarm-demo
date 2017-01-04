@@ -1,5 +1,6 @@
 package ch.maxant.demo.swarm.framework.jaxrs;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -13,8 +14,8 @@ import javax.ws.rs.ext.Provider;
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 public class JacksonConfig implements ContextResolver<ObjectMapper> {
-    private ObjectMapper objectMapper;
 
+    private ObjectMapper objectMapper;
 
     public JacksonConfig() throws Exception {
         this.objectMapper = new ObjectMapper();
@@ -23,8 +24,9 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
         this.objectMapper.registerModule(new JavaTimeModule());
 
         this.objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-    }
 
+        this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); //TODO not working... See SimpleUser
+    }
 
     public ObjectMapper getContext(Class<?> objectType) {
         return objectMapper;

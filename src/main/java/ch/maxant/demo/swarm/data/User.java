@@ -8,20 +8,27 @@ import java.util.Set;
 @Table(name = "T_USER")
 @NamedQueries({
         @NamedQuery(name = User.NQFindAll.NAME, query = User.NQFindAll.QUERY),
+        @NamedQuery(name = User.NQFindByName.NAME, query = User.NQFindByName.QUERY),
         @NamedQuery(name = User.NQFindByCreatedBetween.NAME, query = User.NQFindByCreatedBetween.QUERY)
 })
 public class User {
 
     public static class NQFindAll {
         public static final String NAME = "User.findAll";
-        public static final String QUERY = "select u from User u";
+        static final String QUERY = "select u from User u";
+    }
+
+    public static class NQFindByName {
+        public static final String NAME = "User.findByName";
+        public static final String PARAM_NAME = "name";
+        static final String QUERY = "select u from User u where u.name = :" + PARAM_NAME;
     }
 
     public static class NQFindByCreatedBetween {
         public static final String NAME = "User.findByCreatedBetween";
         public static final String PARAM_FROM = "from";
         public static final String PARAM_TO = "to";
-        public static final String QUERY = "select u from User u where u.created > :" + PARAM_FROM + " and u.created < :" + PARAM_TO;
+        static final String QUERY = "select u from User u where u.created > :" + PARAM_FROM + " and u.created < :" + PARAM_TO;
     }
 
     @Id
@@ -41,15 +48,15 @@ public class User {
     Set<Role> roles;
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         this.created = LocalDate.now();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -4,6 +4,8 @@ import com.jayway.restassured.specification.RequestSpecification;
 import io.undertow.util.StatusCodes;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static ch.maxant.demo.swarm.TestUtils.buildRequestSpecificationWithJwt;
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
@@ -16,11 +18,11 @@ public class UserResourceIT {
         //since this test calls the fully fledged application, it needs a valid JSON Web Token
         RequestSpecification spec = buildRequestSpecificationWithJwt();
 
-        given(spec).
-                when().
-                get("/all").
-                then().
-                statusCode(StatusCodes.INTERNAL_SERVER_ERROR); //TODO coz of problem with initial request...
+        given(spec)
+                .when()
+                .get("/all")
+                .then()
+                .statusCode(StatusCodes.INTERNAL_SERVER_ERROR); //TODO coz of problem with initial request...
 
         //TODO here is the actual test:
         given(spec)
@@ -35,4 +37,16 @@ public class UserResourceIT {
                 .body("find { it.id == 1 }.name", is("John Smith"));
     }
 
+    @Test
+    public void testGetUser() throws IOException {
+        RequestSpecification spec = buildRequestSpecificationWithJwt();
+
+        given(spec)
+                .when()
+                .get("/simpleUser/1")
+                .then()
+                .statusCode(StatusCodes.OK)
+                .body("name", is("John Smith"))
+                .body("id", is(1));
+    }
 }

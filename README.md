@@ -20,16 +20,18 @@ A demo showing a Swarm application with:
 - https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/
 - [System Properties](https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/configuration_properties.html)
 - debug logging for SSL: add `-Djavax.net.debug=all`
+- http://stackoverflow.com/questions/25962753/how-to-ignore-unexpected-fields-in-jax-rs-2-0-client
 
 # Issues
 
 - https://issues.jboss.org/browse/SWARM-910
 - https://issues.jboss.org/browse/SWARM-967
 - https://issues.jboss.org/browse/SWARM-975
+- https://issues.jboss.org/browse/SWARM-976
 
 # TODO
 
-- jax-rs2 client for calling other services
+- filter or something which converts exceptions into pretty json objects including stack trace
 - bean validation
 - add custom service locator based on consul health and tags
 - envers
@@ -38,6 +40,7 @@ A demo showing a Swarm application with:
 - gradle mail
 - others? checkout other examples
 - swarm and ITs and measuring coverage
+- add monitoring => see https://issues.jboss.org/browse/SWARM-976
 - cors: https://github.com/wildfly-swarm/wildfly-swarm-examples/blob/master/jaxrs/health/src/main/java/org/wildfly/swarm/examples/jaxrs/health/CORSFilter.java
 - upgrade to 2016.12.1 => https://issues.jboss.org/browse/SWARM-975
 - keycloak => 

@@ -26,4 +26,16 @@ public class UserService {
     public List<User> getAllUsingEntityManager(){
         return em.createNamedQuery(User.NQFindAll.NAME).getResultList();
     }
+
+    public User findUserByComparison(User user) {
+        if(user.getId() != null){
+            return em.find(User.class, user.getId());
+        }else if(user.getName() != null){
+            return em.createNamedQuery(User.NQFindByName.NAME, User.class)
+                    .setParameter(User.NQFindByName.PARAM_NAME, user.getName())
+                    .getSingleResult();
+        } else {
+            throw new RuntimeException("you must supply either ID or name");
+        }
+    }
 }
