@@ -9,11 +9,14 @@ A demo showing a Swarm application with:
 - JTA
 - SpringData
 - Security via Keycloak (including social login)
-- SSL
 - Project Stages (Configuration)
 - Flyway
 - Tests with running Swarm but H2 Database and mock beans
 - Integration Tests with final Swarm running (mysql), including login with keycloak
+- Topology with Consul
+- JAX-RS 2.0 Client + Service Location via Consul + Keycloak Token passing 
+- SSL (not yet, see issues)
+- Monitoring (not yet, see issues)
 
 #Useful Links
 
@@ -65,9 +68,25 @@ Try adding `truststore` and `truststore-password` to keycloak.json, as shown her
 - http://grepcode.com/search/usages?id=repo1.maven.org$maven2@org.keycloak$keycloak-undertow-adapter@1.4.0.Final@org$keycloak$adapters$undertow@AbstractUndertowRequestAuthenticator&type=type&k=u
 - RSATokenVerifier
 
+# Gotchas
 
-----------------------------------------------------
+- Don't add the following two without test scope:
 
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>${resteasy.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>${resteasy.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+  They interfere with Swarm. If you do add them (with test scope), they don't work anyway. So I used RestAssured for tests
+  which works better anyway because the API supports implicit assertions.
 
 # Mysql Issues
 
