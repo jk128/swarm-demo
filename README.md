@@ -34,8 +34,8 @@ A demo showing a Swarm application with:
 
 # TODO
 
-- filter or something which converts exceptions into pretty json objects including stack trace
 - bean validation
+- filter or something which converts exceptions into pretty json objects including stack trace
 - add custom service locator based on consul health and tags
 - envers
 - See https://deltaspike.apache.org/documentation/projectstage.html for mocking in tests
