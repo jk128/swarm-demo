@@ -45,6 +45,7 @@ public class UserResourceIT {
                 .when()
                 .get("/simpleUser/1")
                 .then()
+                .log().body()
                 .statusCode(StatusCodes.OK)
                 .body("name", is("John Smith"))
                 .body("id", is(1));

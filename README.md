@@ -36,10 +36,18 @@ A demo showing a Swarm application with:
 
 - bean validation
 - filter or something which converts exceptions into pretty json objects including stack trace
+- dockerize build
 - add custom service locator based on consul health and tags
+- give test and actual archives nice names - tried `swarm.app.name`, `swarm.app.path` and `swarm.app.artifact` all of which cause problems either during tests or afterwards when running the jar. altho not so bad since when run from JAR it uses jar name.
+- fix logging during tests:
+
+        2017-01-04 23:51:56,262 ERROR [stderr] (main) SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+        2017-01-04 23:51:56,262 ERROR [stderr] (main) SLF4J: Defaulting to no-operation (NOP) logger implementation
+        2017-01-04 23:51:56,263 ERROR [stderr] (main) SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+
 - envers
 - See https://deltaspike.apache.org/documentation/projectstage.html for mocking in tests
-- finish configing logging in Main properly. eg how to use own format?
+- finish configing logging in Main properly. eg how to use own format? see swarm.logging.pattern-formatters.PATTERN.pattern 
 - gradle mail
 - others? checkout other examples
 - swarm and ITs and measuring coverage

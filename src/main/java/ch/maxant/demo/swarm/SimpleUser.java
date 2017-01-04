@@ -1,8 +1,5 @@
 package ch.maxant.demo.swarm;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class SimpleUser {
 
     private String name;

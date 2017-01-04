@@ -25,7 +25,7 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
 
         this.objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-        this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); //TODO not working... See SimpleUser
+        this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public ObjectMapper getContext(Class<?> objectType) {
