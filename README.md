@@ -19,6 +19,7 @@ A demo showing a Swarm application with:
 
 - https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/
 - [System Properties](https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/configuration_properties.html)
+- debug logging for SSL: add `-Djavax.net.debug=all`
 
 # Issues
 

@@ -1,16 +1,14 @@
 package ch.maxant.demo.swarm.framework.jaxrs;
 
-import org.wildfly.swarm.monitor.Health;
-import org.wildfly.swarm.monitor.HealthStatus;
+//import org.wildfly.swarm.monitor.Health;
+//import org.wildfly.swarm.monitor.HealthStatus;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import java.io.File;
-import java.util.Date;
 
 @Path("/health")
 public class HealthCheckResource {
 
+    /* TODO get monitoring to work
     @GET
     @Path("/health")
     @Health
@@ -40,4 +38,5 @@ public class HealthCheckResource {
                 .withAttribute("date", new Date().toString())
                 .withAttribute("time", System.currentTimeMillis());
     }
+    */
 }

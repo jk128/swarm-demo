@@ -15,7 +15,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
 
-        <wildfly-swarm.version>2016.12.1</wildfly-swarm.version>
+        <wildfly-swarm.version>2016.12.0</wildfly-swarm.version>
 
         <!-- jackson used for json dates. NOTE: version needs to match version used by swarm! -->
         <jackson.version>2.7.4</jackson.version>
@@ -83,11 +83,12 @@
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>topology-consul</artifactId>
         </dependency>
+<!--
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>monitor</artifactId>
         </dependency>
-
+-->
         <!-- added to serialise java.time.LocalDate as an ISO 8601 String -->
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
