@@ -11,9 +11,9 @@ A demo showing a Swarm application with:
 - Security via Keycloak (including social login)
 - Project Stages (Configuration)
 - Flyway
-- Unit tests including CDI and JPA (`/**/*Test.java`)
-- Tests with running Swarm but H2 Database and mock beans (`/**/*AT.java`)
-- Integration Tests with final Swarm running (mysql), including login with keycloak (`/**/*IT.java`)
+- Unit tests including CDI and JPA (`**/*Test.java`)
+- Tests with running Swarm but H2 Database and mock beans (`**/*AT.java`)
+- Integration Tests with final Swarm running (mysql), including login with keycloak (`**/*IT.java`)
 - Topology with Consul
 - JAX-RS 2.0 Client + Service Location via Consul + Keycloak Token passing 
 - SSL (not yet, see issues)
