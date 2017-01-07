@@ -1,0 +1,2 @@
+#we do this since the JAR isnt really on the classpath (at least not in our pom), but it is there, otherwise how does swarm start up for tests?
+org.hibernate.jpa.HibernatePersistenceProvider

@@ -10,7 +10,7 @@ import static ch.maxant.demo.swarm.TestUtils.*;
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 
-public class UserResourceTest {
+public class UserResourceAT {
 
     private static Swarm swarm;
 

@@ -16,7 +16,9 @@ import java.io.*;
 import java.net.URL;
 
 import static ch.maxant.demo.swarm.Main.PRIMARY_DS;
+import static ch.maxant.demo.swarm.Main.PRIMARY_DS_JNDI_NAME;
 
+//TODO move to framework package
 public final class TestUtils {
 
     public static RequestSpecification buildRequestSpecificationWithJwt() throws IOException {
@@ -82,8 +84,8 @@ public final class TestUtils {
     public static Archive buildTestDeployment() throws Exception {
         WARArchive archive = ShrinkWrap.create(WARArchive.class);
         archive.setWebXML(new File("src/test/resources/web.xml")); //no security here please
-        archive.addAsWebInfResource(new File("src/test/resources/beans.xml"));
-        archive.addAsWebInfResource(new File("src/main/resources/META-INF/persistence.xml"), "classes/META-INF/persistence.xml");
+        archive.addAsWebInfResource(new File("src/test/resources/META-INF/beans.xml"));
+        archive.addAsWebInfResource(new File("src/main/resources/META-INF/persistence.xml"), "classes/META-INF/persistence.xml"); //NOT the non-JTA one out of src/test/resources!
         for(File mig : new File("src/main/resources/db/migration").listFiles()){
             archive.addAsWebInfResource(mig, "classes/db/migration/" + mig.getName());
         }
@@ -113,7 +115,7 @@ public final class TestUtils {
         );
 
         swarm.fraction(new JPAFraction()
-                .defaultDatasource("jboss/datasources/primaryDS")
+                .defaultDatasource(PRIMARY_DS_JNDI_NAME)
         );
 
         return swarm;

@@ -22,7 +22,6 @@
 
         <junit.version>4.12</junit.version>
         <mysql.connector.version>6.0.5</mysql.connector.version>
-        <resteasy.version>3.1.0.Final</resteasy.version>
     </properties>
 
     <dependencyManagement>
@@ -172,6 +171,34 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- DEPENDENCIES FOR TESTING CONTAINER TYPE STUFF IN UNIT TESTS, E.G. CDI and JPA
+             The following stuff is for testing CDI and the entity manager during unit tests (surefire).
+             We have to be careful that it does not interfere with swarm though because swarm will
+             get hold of this stuff on its own and it can lead to class loading issues.
+             So ALL this stuff needs to be put under *test* scope.
+             So that it doesn't interfere with tests which start swarm with mocked stuff (during the test phase)
+             i.e. "**/*AT.java", it may need to be excluded from the surefire classpath. We do that below in the
+             surefire plugin configuration. Note how down there, we have two executions, one for normal unit tests
+             and one for the ATs where stuff is excluded.
+        -->
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se-core</artifactId>
+            <!-- watch out, probably needs to be same version of weld which swarm uses, although according to the swarm
+                 jar which gets built, the version should be 3.0.0.Alpha16, but that doesn't work here and causes
+                 problems like:
+                 Caused by: java.lang.ClassNotFoundException: javax.enterprise.inject.spi.builder.BeanConfigurator
+            -->
+            <version>2.4.1.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <!-- watch out, probably needs to be same version of weld which swarm uses -->
+            <version>5.0.10.Final</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -257,6 +284,43 @@
                         <classpathDependencyExclude>mysql:mysql-connector-java</classpathDependencyExclude>
                     </classpathDependencyExcludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <!-- include stuff normally included by surefire. this execution is for unit tests. -->
+                            <includes>
+                                <include>**/Test*.java</include>
+                                <include>**/*Test.java</include>
+                                <include>**/*TestCase.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+
+                    <!-- add ANOTHER execution for tests which start up swarm with mock beans.
+                         this execution needs to have some stuff excluded from the classpath. see below. -->
+                    <execution>
+                        <id>test-application-tests</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/*AT.java</include>
+                            </includes>
+                            <!-- exclude stuff which is in test scope because of unit tests, which Swarm will delivery on its own, otherwise we have classloading issues! -->
+                            <classpathDependencyExcludes>
+                                <classpathDependencyExclude>org.hibernate:hibernate-entitymanager</classpathDependencyExclude>
+                                <!-- transient dependency from hibernate-entitymanager which also needs to be excluded -->
+                                <classpathDependencyExclude>dom4j:dom4j</classpathDependencyExclude>
+                            </classpathDependencyExcludes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

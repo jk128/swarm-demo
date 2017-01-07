@@ -10,6 +10,10 @@
         -->
         <properties>
             <property name="hibernate.show_sql" value="true"/>
+
+            <!-- TODO is this needed? -->
+            <property name="javax.persistence.validation.mode" value="AUTO" />
+
         </properties>
     </persistence-unit>
 </persistence>

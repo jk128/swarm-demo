@@ -14,6 +14,7 @@ import org.wildfly.swarm.security.SecurityFraction;
 public class Main {
 
     public static final String PRIMARY_DS = "primaryDS";
+    public static final String PRIMARY_DS_JNDI_NAME = "jboss/datasources/" + PRIMARY_DS;
 
     public static void main(String[] args) throws Exception {
 
@@ -57,7 +58,7 @@ public class Main {
         );
 
         swarm.fraction(new JPAFraction()
-                               .defaultDatasource("jboss/datasources/primaryDS")
+                               .defaultDatasource(PRIMARY_DS_JNDI_NAME)
         );
 
         //see https://groups.google.com/forum/#!topic/wildfly-swarm/0E0-FyRJzJk
