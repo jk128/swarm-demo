@@ -11,12 +11,14 @@ A demo showing a Swarm application with:
 - Security via Keycloak (including social login)
 - Project Stages (Configuration)
 - Flyway
-- Tests with running Swarm but H2 Database and mock beans
-- Integration Tests with final Swarm running (mysql), including login with keycloak
+- Unit tests including CDI and JPA (`/**/*Test.java`)
+- Tests with running Swarm but H2 Database and mock beans (`/**/*AT.java`)
+- Integration Tests with final Swarm running (mysql), including login with keycloak (`/**/*IT.java`)
 - Topology with Consul
 - JAX-RS 2.0 Client + Service Location via Consul + Keycloak Token passing 
 - SSL (not yet, see issues)
 - Monitoring (not yet, see issues)
+- Java Bean Validation
 
 #Useful Links
 
@@ -35,6 +37,7 @@ A demo showing a Swarm application with:
 # TODO
 
 - bean validation
+- AT doesn't run from IDE coz of classloading problem :-(
 - filter or something which converts exceptions into pretty json objects including stack trace
 - dockerize build
 - add custom service locator based on consul health and tags
