@@ -11,12 +11,22 @@ import org.wildfly.swarm.jpa.JPAFraction;
 import org.wildfly.swarm.logging.LoggingFraction;
 import org.wildfly.swarm.security.SecurityFraction;
 
+import java.net.URL;
+import java.net.URLClassLoader;
+
 public class Main {
 
     public static final String PRIMARY_DS = "primaryDS";
     public static final String PRIMARY_DS_JNDI_NAME = "jboss/datasources/" + PRIMARY_DS;
 
     public static void main(String[] args) throws Exception {
+
+        // done for https://issues.jboss.org/browse/SWARM-990:
+        //System.setProperty("swarm.debug.bootstrap", "true");
+        //System.setProperty("swarm.export.deployment", "true");
+
+        logClasspath();
+
 
         //for keycloak - TODO replace with truststore attribute in keycloak.json
         System.setProperty("javax.net.ssl.trustStore", "/usr/java/latest/jre/lib/security/cacerts");
@@ -36,6 +46,18 @@ public class Main {
          */
 
         swarm.deploy();
+    }
+
+    private static void logClasspath() {
+        System.out.println("=============== CLASSPATH: ==============================");
+        ClassLoader cl = ClassLoader.getSystemClassLoader();
+
+        URL[] urls = ((URLClassLoader)cl).getURLs();
+
+        for(URL url: urls){
+            System.out.println(url.getFile());
+        }
+        System.out.println("=========================================================");
     }
 
     static Swarm buildSwarm() throws Exception {

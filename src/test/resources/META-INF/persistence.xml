@@ -7,22 +7,40 @@
 
     <persistence-unit name="h2" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <!-- TODO why do i need to add the classes here?!? -->
+
+        <!-- altho not officially supported in J2SE, set it anyway, together with hibernate property below
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        -->
+        <!-- TODO why do i need to add the classes here?!?
         <class>ch.maxant.demo.swarm.data.User</class>
         <class>ch.maxant.demo.swarm.data.Role</class>
+        -->
+
+        <!--
+        <validation-mode>AUTO</validation-mode>
+        -->
+
         <properties>
+<!--
             <property name="hibernate.archive.autodetection" value="class" />
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-            <property name="hibernate.connection.driver_class" value="org.h2.Driver" />
-            <property name="hibernate.connection.url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;USER=sa;PASSWORD=;" />
-            <!--
-            <property name="hibernate.connection.user" value="sa" />
-            <property name="hibernate.connection.password" value="${dbPassword}" />
             -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+
+            <!-- put username & password in URL so that we can use this property for creating the DB using flyway. See TestCdiSetup -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;USER=sa;PASSWORD=;" />
+
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+<!--
+
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.flushMode" value="FLUSH_AUTO" />
-            <property name="javax.persistence.validation.mode" value="AUTO" />
 
+            <property name="javax.persistence.validation.mode" value="AUTO" />
+-->
             <!-- dont do the following since we are using flyway to setup the DB so that we get a more realistic DB rather than one with just some constraints/indexes, etc. which JPA thinks are right
             <property name="hibernate.hbm2ddl.auto" value="update" />
             -->

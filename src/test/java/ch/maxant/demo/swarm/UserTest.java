@@ -19,7 +19,7 @@ public class UserTest {
     EntityManager em;
 
     @Test
-    public void testValidation_failCozOfName() {
+    public void testValidation_failCozOfName() throws Exception {
         doInTransaction(em, ()-> {
             User u = new User();
             u.setId(99);

@@ -33,6 +33,8 @@ A demo showing a Swarm application with:
 - https://issues.jboss.org/browse/SWARM-967
 - https://issues.jboss.org/browse/SWARM-975
 - https://issues.jboss.org/browse/SWARM-976
+- https://issues.jboss.org/browse/SWARM-990
+- (https://issues.jboss.org/browse/SWARM-958)
 
 # TODO
 

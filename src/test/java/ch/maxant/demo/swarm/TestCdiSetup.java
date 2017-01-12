@@ -84,15 +84,16 @@ public class TestCdiSetup {
         }
     }
 
-    public static void doInTransaction(EntityManager em, Callback f){
+    public static void doInTransaction(EntityManager em, Callback f) throws Exception {
         em.getTransaction().begin();
         try{
             f.call();
             em.flush();
             em.getTransaction().commit();
             em.close(); //to ensure cache is emptied
-        }catch(Throwable t){
+        }catch(Exception e){
             em.getTransaction().rollback();
+            throw e;
         }
     }
 
