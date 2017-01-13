@@ -83,6 +83,13 @@
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>topology-consul</artifactId>
         </dependency>
+        <dependency>
+            <!-- added so that unit tests also have validation. altho maybe it HAS to be added anyway? -->
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${wildfly-swarm.version}</version>
+        </dependency>
+
 <!-- TODO add when SWARM-976 is resolved
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
@@ -109,6 +116,12 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
         </dependency>
 
         <!-- standard database. excluded during unit testing - see surefire plugin below -->
@@ -199,6 +212,7 @@
             <version>5.0.10.Final</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>

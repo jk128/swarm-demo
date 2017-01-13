@@ -38,4 +38,8 @@ public class UserService {
             throw new RuntimeException("you must supply either ID or name");
         }
     }
+
+    public void save(User user) {
+        em.persist(user);
+    }
 }

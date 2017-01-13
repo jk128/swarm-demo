@@ -8,12 +8,17 @@
         <!-- not needed, coz theres a default datasource configured in main:
         <jta-data-source>java:/jboss/datasources/primaryDS</jta-data-source>
         -->
+
         <properties>
             <property name="hibernate.show_sql" value="true"/>
 
-            <!-- TODO is this needed? -->
-            <property name="javax.persistence.validation.mode" value="AUTO" />
+            <!--
+            if you have more than one pu in this file, make one default:
+            https://docs.jboss.org/author/display/WFLY9/JPA+Reference+Guide#JPAReferenceGuide-Persistenceunitproperties
+            <property name="wildfly.jpa.default-unit" value="true" />
+            -->
 
         </properties>
     </persistence-unit>
+
 </persistence>

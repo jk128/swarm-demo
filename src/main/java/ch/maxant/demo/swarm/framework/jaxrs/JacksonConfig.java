@@ -26,10 +26,20 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
         this.objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
         this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        //if necessary: this.objectMapper.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true); //convert non ascii to utf-8
     }
 
     public ObjectMapper getContext(Class<?> objectType) {
         return objectMapper;
+    }
+
+    public static ObjectMapper getMapper() {
+        try {
+            return new JacksonConfig().objectMapper;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }  
  

@@ -38,10 +38,9 @@ A demo showing a Swarm application with:
 
 # TODO
 
-- bean validation
-- AT doesn't run from IDE coz of classloading problem :-(
-- filter or something which converts exceptions into pretty json objects including stack trace
 - dockerize build
+- bean validation on UserResource / jax-rs so that it happens before saving to DB
+- AT doesn't run from IDE coz of classloading problem :-(
 - add custom service locator based on consul health and tags
 - give test and actual archives nice names - tried `swarm.app.name`, `swarm.app.path` and `swarm.app.artifact` all of which cause problems either during tests or afterwards when running the jar. altho not so bad since when run from JAR it uses jar name.
 - fix logging during tests:
@@ -50,12 +49,12 @@ A demo showing a Swarm application with:
         2017-01-04 23:51:56,262 ERROR [stderr] (main) SLF4J: Defaulting to no-operation (NOP) logger implementation
         2017-01-04 23:51:56,263 ERROR [stderr] (main) SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
 
-- envers
 - See https://deltaspike.apache.org/documentation/projectstage.html for mocking in tests
 - finish configing logging in Main properly. eg how to use own format? see swarm.logging.pattern-formatters.PATTERN.pattern 
-- gradle mail
 - others? checkout other examples
 - swarm and ITs and measuring coverage
+- envers
+- gradle mail
 - add monitoring => see https://issues.jboss.org/browse/SWARM-976
 - cors: https://github.com/wildfly-swarm/wildfly-swarm-examples/blob/master/jaxrs/health/src/main/java/org/wildfly/swarm/examples/jaxrs/health/CORSFilter.java
 - upgrade to 2016.12.1 => https://issues.jboss.org/browse/SWARM-975

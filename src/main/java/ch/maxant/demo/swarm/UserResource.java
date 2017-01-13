@@ -59,14 +59,22 @@ public class UserResource {
     @POST //actually a GET, but Resteasy cant cope with GET having a body!
     @Path("user")
     @Produces(MediaType.APPLICATION_JSON)
-    public User findUserByComparison(User user){
+    public User findUserByComparison(User user) {
         return service.findUserByComparison(user);
+    }
+
+    @PUT
+    @Path("save")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response save(User user) {
+        service.save(user);
+        return Response.status(Response.Status.CREATED).build();
     }
 
     @GET
     @Path("simpleUser/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getSimpleUser(@PathParam("id") String id){
+    public Response getSimpleUser(@PathParam("id") String id) {
         User user = new User();
         user.setId(Integer.parseInt(id));
         user = findUserByComparison(user);
@@ -80,11 +88,11 @@ public class UserResource {
                 .locateService(USER_SERVICE, "/user")
                 .post(u);
 
-        if(response.getStatus() >= 200 && response.getStatus() < 300) {
+        if (response.getStatus() >= 200 && response.getStatus() < 300) {
             //use "SimpleUser" to check "tolerant reader" => it shouldn't matter that there is more data - to be robust, we take only that data which interests us.
             su = response.readEntity(SimpleUser.class);
             return Response.ok(su).build();
-        }else {
+        } else {
             String msg = "Downstream call failed with error: " + response.getStatus() + " - " + response.getStatusInfo().getReasonPhrase();
             return Response.serverError().entity(msg).build();
         }

@@ -77,6 +77,7 @@ public final class TestUtils {
     private static RequestSpecBuilder buildBasicRequestSpecification() {
         RequestSpecBuilder builder = new RequestSpecBuilder();
         builder.setBaseUri(getBaseUriForLocalhost());
+        builder.setContentType(ContentType.JSON);
         builder.setAccept(ContentType.JSON);
         return builder;
     }

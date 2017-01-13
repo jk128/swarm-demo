@@ -71,14 +71,17 @@ public class TestCdiSetup {
             //ok, ds remains null
         }
         if(ds == null){
-            //we are running outside of Swarm, so create a test EM with H2
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("h2");
-            String url = (String) emf.getProperties().get("hibernate.connection.url");
-            EntityManager em = emf.createEntityManager();
+            // put username & password in URL so that we can use this property for creating the DB using flyway. See TestCdiSetup
+            System.setProperty("h2.db.url", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;USER=sa;PASSWORD=;");
+            String url = System.getProperty("h2.db.url"); //so it can be used in src/test/resources/META-INF/persistence.xml
             Flyway fw = new Flyway();
             fw.setDataSource(url, null, null); //password can be null, since its in the URL. otherwise it is returned with stars if we ask hibernate for it
             fw.migrate();
-            return em;
+
+            System.out.println("Flyway finished.");
+
+            //we are running outside of Swarm, so create a test EM with H2
+            return Persistence.createEntityManagerFactory("h2").createEntityManager();
         }else{
             return emf.createEntityManager(); //we are running inside Swarm, so build an EM
         }
@@ -88,12 +91,12 @@ public class TestCdiSetup {
         em.getTransaction().begin();
         try{
             f.call();
-            em.flush();
             em.getTransaction().commit();
-            em.close(); //to ensure cache is emptied
         }catch(Exception e){
             em.getTransaction().rollback();
             throw e;
+        }finally {
+            em.close(); //to ensure cache is emptied
         }
     }
 
