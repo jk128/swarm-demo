@@ -39,14 +39,15 @@ These can use entity managers directly, or they can call:
 
 `*Repository` to access data (persistence, integration with other systems, etc.). Either Spring Data or home grown.
 
-Spring Data needs `@Eager` which needs a Dependent Scoped EntityManager. The Repository itself is also dependent scoped. So don't inject it into an application scoped bean, for the same reasons we don't inject entity managers into application beans.
+Spring Data needs `@Eager` which needs a Dependent Scoped EntityManager. 
+In the case of WildFly, it uses TransactionScopedEntityManager that routes calls to the 
+EntityManager associated with the transaction. Transactions are bound to threads and so you get the 
+required isolation. See 
+http://stackoverflow.com/questions/41174111/strange-exception-on-inital-request-to-repository-when-using-spring-data-jpa-wit
+(potentially that means that spring data repositories can be injected into application scoped beans?)
 
 See also http://stackoverflow.com/questions/14888040/java-an-entitymanager-object-in-a-multithread-environment 
 and http://www.adam-bien.com/roller/abien/entry/is_in_an_ejb_injected.
-
-
-
-
 
 # Issues
 
@@ -72,6 +73,7 @@ and http://www.adam-bien.com/roller/abien/entry/is_in_an_ejb_injected.
 
 - See https://deltaspike.apache.org/documentation/projectstage.html for mocking in tests
 - finish configing logging in Main properly. eg how to use own format? see swarm.logging.pattern-formatters.PATTERN.pattern 
+  - see https://groups.google.com/forum/#!topic/wildfly-swarm/bwwqTGVpemk
 - others? checkout other examples
 - swarm and ITs and measuring coverage
 - envers
