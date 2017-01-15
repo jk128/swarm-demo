@@ -17,7 +17,7 @@ import static ch.maxant.demo.swarm.UserResource.USER_SERVICE;
 
 @Path("/")
 @Stateless
-@Audited //works on ejb too
+@Audited //works on ejbs too
 //secured via web.xml and keycloak
 //@RolesAllowed({"user"}) //TODO https://groups.google.com/forum/#!topic/wildfly-swarm/G_-uGRUeiVo
 //@SecurityDomain("domain") //TODO required?

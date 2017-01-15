@@ -19,13 +19,14 @@ import static org.junit.Assert.fail;
 @RunWith(WeldJUnit4Runner.class)
 public class UserTest {
 
-    @Inject
+    @Inject //note that here we are using @Inject and NOT @PersistenceContext, since this is pure CDI
     EntityManager em;
 
     @Test
     public void testValidation_failCozOfMissingNameAndPassword() throws Exception {
         try {
             doInTransaction(em, () -> {
+
                 User u = new User();
                 u.setId(99);
 

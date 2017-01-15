@@ -4,22 +4,24 @@ import ch.maxant.demo.swarm.data.User;
 import ch.maxant.demo.swarm.data.UserRepository;
 import ch.maxant.demo.swarm.framework.cdi.Audited;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@ApplicationScoped
+import static ch.maxant.demo.swarm.CdiSetup.PRIMARY;
+
 @Audited //works on cdi bean too
 public class UserService {
 
     @Inject
     UserRepository userRepository;
 
-    @Inject
+    @PersistenceContext(name = PRIMARY)
     EntityManager em;
 
     public List<User> getAll() {
+        System.out.println("UserRepo instance: " + System.identityHashCode(userRepository) + "\t\tUserService instance: " + System.identityHashCode(this) + "\t\tEM instance: " + System.identityHashCode(em));
         return userRepository.findAll();
     }
 

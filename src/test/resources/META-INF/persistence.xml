@@ -5,7 +5,7 @@
         xmlns="http://xmlns.jcp.org/xml/ns/persistence"
         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
-    <persistence-unit name="h2" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="primary" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- since this file is on a slightly different classpath than the actual entities, we need to

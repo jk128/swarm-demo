@@ -10,6 +10,7 @@ import static ch.maxant.demo.swarm.TestUtils.*;
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 
+//WATCH OUT: does not run from IDE, because hibernate-entitymanager is on the (test) classpath. Maven let's it remove it from the classpath for '**/*AT.java', IntelliJ doesn't.
 public class UserResourceAT {
 
     private static Swarm swarm;

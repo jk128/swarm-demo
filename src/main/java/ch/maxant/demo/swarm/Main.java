@@ -27,7 +27,6 @@ public class Main {
 
         logClasspath();
 
-
         //for keycloak - TODO replace with truststore attribute in keycloak.json
         System.setProperty("javax.net.ssl.trustStore", "/usr/java/latest/jre/lib/security/cacerts");
         System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
@@ -149,4 +148,5 @@ public class Main {
 
         return swarm;
     }
+
 }

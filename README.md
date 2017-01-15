@@ -20,12 +20,33 @@ A demo showing a Swarm application with:
 - Monitoring (not yet, see issues)
 - Java Bean Validation
 
-#Useful Links
+# Useful Links
 
 - https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/
 - [System Properties](https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/configuration_properties.html)
 - debug logging for SSL: add `-Djavax.net.debug=all`
 - http://stackoverflow.com/questions/25962753/how-to-ignore-unexpected-fields-in-jax-rs-2-0-client
+
+# Design
+
+`*Resource` is a stateless EJB so that a transaction is started.  These call through to:
+
+`*Service` which are dependent scoped CDI beans containing business logic. This is because calling a CDI 
+bean has less overhead than calling an EJB. They're NOT application scoped, because injecting entity 
+managers into application scoped beans isn't allowed: See 
+http://stackoverflow.com/questions/13885918/applicationscoped-cdi-bean-and-persistencecontext-is-this-safe. 
+These can use entity managers directly, or they can call:
+
+`*Repository` to access data (persistence, integration with other systems, etc.). Either Spring Data or home grown.
+
+Spring Data needs `@Eager` which needs a Dependent Scoped EntityManager. The Repository itself is also dependent scoped. So don't inject it into an application scoped bean, for the same reasons we don't inject entity managers into application beans.
+
+See also http://stackoverflow.com/questions/14888040/java-an-entitymanager-object-in-a-multithread-environment 
+and http://www.adam-bien.com/roller/abien/entry/is_in_an_ejb_injected.
+
+
+
+
 
 # Issues
 

@@ -5,7 +5,6 @@ import ch.maxant.demo.swarm.data.UserRepository;
 import org.flywaydb.core.Flyway;
 import org.wildfly.swarm.spi.runtime.annotations.ConfigurationValue;
 
-import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 import javax.naming.InitialContext;
@@ -25,7 +24,6 @@ import static org.mockito.Mockito.when;
  * See src/test/resources/beans.xml which references this file.
  */
 @Alternative
-@Dependent
 public class TestCdiSetup {
 
     @PersistenceUnit(unitName=PRIMARY)
@@ -59,10 +57,13 @@ public class TestCdiSetup {
         return "1";
     }
 
+    /** used not just by Spring Data, but also by tests requiring an injected EM - they can't use @PersistenceContext since the tests run purely in CDI */
     @Alternative
     @Produces
     public EntityManager getTestEm() throws Exception {
 
+        //are we in side swarm or not? if we can get a datasource from the initial context, we are in swarm
+        //and should use the EMF injected above. otherwise return an EM build using H2
         Object ds = null;
         try{
             InitialContext ic = new InitialContext();
@@ -81,7 +82,7 @@ public class TestCdiSetup {
             System.out.println("Flyway finished.");
 
             //we are running outside of Swarm, so create a test EM with H2
-            return Persistence.createEntityManagerFactory("h2").createEntityManager();
+            return Persistence.createEntityManagerFactory(PRIMARY).createEntityManager();
         }else{
             return emf.createEntityManager(); //we are running inside Swarm, so build an EM
         }
