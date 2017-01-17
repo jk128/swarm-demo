@@ -27,10 +27,6 @@ public class Main {
 
         logClasspath();
 
-        //for keycloak - TODO replace with truststore attribute in keycloak.json
-        System.setProperty("javax.net.ssl.trustStore", "/usr/java/latest/jre/lib/security/cacerts");
-        System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
-
         Swarm swarm = buildSwarm();
 
         swarm.start();
@@ -39,9 +35,8 @@ public class Main {
         call using:
             GET /all HTTP/1.1
             Host: localhost:8080
-            Authorization: Basic UGVubnk6cGFzc3dvcmQ=
+            Authorization: Bearer ey... => get it from keycloak!
             Cache-Control: no-cache
-            Postman-Token: feaa4370-3628-9b6b-32ba-08b25c211b0a
          */
 
         swarm.deploy();

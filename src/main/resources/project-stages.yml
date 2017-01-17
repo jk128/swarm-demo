@@ -14,20 +14,34 @@ primary_database:
       url: jdbc:mysql://localhost:3306/tullia_users?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
       username: root
       password: password
+#for keycloak - TODO replace with truststore attribute in keycloak.json
+javax:
+   net:
+      ssl:
+         trustStore: truststore.jks
+         trustStorePassword: changeit
+---
+project:
+   stage: dockerlaptop
+primary_database:
+   datasource:
+      url: jdbc:mysql://172.17.0.1:3306/tullia_users?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: password
 ---
 project:
    stage: test
-database:
+primary_database:
    jdbcDriver:
-      name: TODO-h2
-      driverClassName: TODO-h2
-      xaDatasourceClass: TODO-h2
-      driverModuleName: TODO-h2
+      name: TODO
+      driverClassName: TODO
+      xaDatasourceClass: TODO
+      driverModuleName: TODO
    datasource:
-      driverName: TODO-h2
-      url: TODO-h2
-      username: TODO-h2
-      password: TODO-h2
+      driverName: TODO
+      url: TODO
+      username: TODO
+      password: TODO
 ---
 project:
    stage: prod

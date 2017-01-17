@@ -60,7 +60,6 @@ and http://www.adam-bien.com/roller/abien/entry/is_in_an_ejb_injected.
 
 # TODO
 
-- dockerize build
 - bean validation on UserResource / jax-rs so that it happens before saving to DB
 - AT doesn't run from IDE coz of classloading problem :-(
 - add custom service locator based on consul health and tags
@@ -84,6 +83,22 @@ and http://www.adam-bien.com/roller/abien/entry/is_in_an_ejb_injected.
 - keycloak => 
   - get it working, see https://groups.google.com/d/msg/wildfly-swarm/G_-uGRUeiVo/1pLI8USvAgAJ
 - project-stages.yml: see https://issues.jboss.org/browse/SWARM-967
+
+#Docker
+
+See `Dockerfile`
+
+After running, you might need to do this before you can re-run it: `docker rm swarmdemo`
+
+To provide an environment file, use `docker --env-file`...
+
+#Creating the truststore
+
+It's saved as `truststore.jks` in the projects root folder.
+
+    wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.der
+    keytool -importcert -trustcacerts -noprompt -alias lets-encrypt-x3-cross-signed -keystore truststore.jks -file lets-encrypt-x3-cross-signed.der
+    rm lets-encrypt-x3-cross-signed.der 
 
 #Keycloak
 
@@ -125,7 +140,15 @@ Try adding `truststore` and `truststore-password` to keycloak.json, as shown her
 
 # Mysql Issues
 
-Needed to fix a problem with events, so that flyway worked.
+## Remote access
+So that Docker image can access mysql ensure user has rights for remote access:
+
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+
+## Other issues
+
+I also needed to fix a problem with events, so that flyway worked.
 
 This worked using sudo: http://serverfault.com/questions/562282/mysqldump-error-1557-corrupt-event-table/562303
 
